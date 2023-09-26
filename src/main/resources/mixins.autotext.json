@@ -1,0 +1,6 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7",
+  "package": "me.redth.autotext.mixin",
+  "refmap": "mixins.autotext.refmap.json"
+}
