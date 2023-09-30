@@ -24,9 +24,7 @@ object ModConfig : Config(Mod(AutoText.NAME, ModType.UTIL_QOL), "${AutoText.MODI
     }
 
     override fun getCustomOption(field: Field, annotation: CustomOption, page: OptionPage, mod: Mod, migrate: Boolean): BasicOption {
-        val option = OptionList("entries", "", "General", "")
-        ConfigUtils.getSubCategory(page, "General", "").options.add(option)
-        return option
+        return OptionList("entries", "", "General", "").also { ConfigUtils.getSubCategory(page, "General", "").options.add(it) }
     }
 
     override fun load() {
