@@ -2,13 +2,12 @@ package me.redth.autotext.config
 
 import cc.polyfrost.oneconfig.config.Config
 import cc.polyfrost.oneconfig.config.annotations.CustomOption
-import cc.polyfrost.oneconfig.config.annotations.Exclude
 import cc.polyfrost.oneconfig.config.core.ConfigUtils
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
-import cc.polyfrost.oneconfig.config.elements.BasicOption
 import cc.polyfrost.oneconfig.config.elements.OptionPage
 import me.redth.autotext.AutoText
+import me.redth.autotext.element.KeyTextEntryOption
 import me.redth.autotext.element.OptionList
 import java.lang.reflect.Field
 
@@ -16,24 +15,17 @@ object ModConfig : Config(Mod(AutoText.NAME, ModType.UTIL_QOL), "${AutoText.MODI
     @CustomOption
     private var entries = emptyArray<KeyTextEntry>()
 
-    @Exclude
-    var entryList: MutableList<KeyTextEntry> = ArrayList()
-
-    init {
-        initialize()
-    }
-
-    override fun getCustomOption(field: Field, annotation: CustomOption, page: OptionPage, mod: Mod, migrate: Boolean): BasicOption {
-        return OptionList("entries", "", "General", "").also { ConfigUtils.getSubCategory(page, "General", "").options.add(it) }
+    override fun getCustomOption(field: Field, annotation: CustomOption, page: OptionPage, mod: Mod, migrate: Boolean) = OptionList.also {
+        ConfigUtils.getSubCategory(page, "General", "").options.add(it)
     }
 
     override fun load() {
         super.load()
-        entryList = entries.toMutableList()
+        OptionList.list = entries.map { KeyTextEntryOption(it) }.toMutableList()
     }
 
     override fun save() {
-        entries = entryList.toTypedArray()
+        entries = OptionList.list.map { it.keyTextEntry }.toTypedArray()
         super.save()
     }
 }
