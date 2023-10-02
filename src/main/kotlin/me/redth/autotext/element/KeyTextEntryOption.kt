@@ -29,14 +29,4 @@ class KeyTextEntryOption(val keyTextEntry: KeyTextEntry) {
 
         return nowPressed
     }
-
-    fun KeyTextEntry.justPressed(): Boolean {
-        val nowPressed = keyBind.isActive
-
-        if (lastPressed == nowPressed) return false
-
-        lastPressed = nowPressed
-
-        return nowPressed
-    }
 }
