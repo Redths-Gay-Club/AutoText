@@ -1,16 +1,14 @@
-package me.redth.autotext.element
+package me.redth.autotext.config
 
 import cc.polyfrost.oneconfig.config.elements.BasicOption
-import cc.polyfrost.oneconfig.gui.elements.BasicButton
 import cc.polyfrost.oneconfig.gui.elements.IFocusable
 import cc.polyfrost.oneconfig.utils.InputHandler
-import cc.polyfrost.oneconfig.utils.color.ColorPalette
-import me.redth.autotext.AutoText
-import me.redth.autotext.config.KeyTextEntry
+import me.redth.autotext.element.AddButton
+import me.redth.autotext.element.KeyTextEntryOption
 
 @Suppress("unstableapiusage")
 object OptionList : BasicOption(null, null, "", "", "General", "", 2), IFocusable {
-    private val addButton = BasicButton(32, BasicButton.SIZE_32, AutoText.PLUS_ICON, BasicButton.ALIGNMENT_CENTER, ColorPalette.PRIMARY).apply { setClickAction { newEntry() } }
+    private val addButton = AddButton()
     var list: MutableList<KeyTextEntryOption> = ArrayList()
     var nextToRemove: KeyTextEntryOption? = null
 
@@ -37,6 +35,4 @@ object OptionList : BasicOption(null, null, "", "", "General", "", 2), IFocusabl
     }
 
     override fun hasFocus() = list.any { it.hasFocus() }
-
-    private fun newEntry() = list.add(KeyTextEntryOption(KeyTextEntry()))
 }

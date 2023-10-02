@@ -8,7 +8,6 @@ import cc.polyfrost.oneconfig.config.data.ModType
 import cc.polyfrost.oneconfig.config.elements.OptionPage
 import me.redth.autotext.AutoText
 import me.redth.autotext.element.KeyTextEntryOption
-import me.redth.autotext.element.OptionList
 import java.lang.reflect.Field
 
 object ModConfig : Config(Mod(AutoText.NAME, ModType.UTIL_QOL), "${AutoText.MODID}.json") {

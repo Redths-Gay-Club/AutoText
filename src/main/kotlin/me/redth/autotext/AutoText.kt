@@ -5,7 +5,7 @@ import cc.polyfrost.oneconfig.events.event.KeyInputEvent
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe
 import cc.polyfrost.oneconfig.renderer.asset.SVG
 import me.redth.autotext.config.ModConfig
-import me.redth.autotext.element.OptionList
+import me.redth.autotext.config.OptionList
 import net.minecraft.client.Minecraft
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -28,8 +28,8 @@ object AutoText {
     @Subscribe
     fun onKeyInput(e: KeyInputEvent) {
         for (keyTextEntry in OptionList.list) {
-            if (!keyTextEntry.justPressed()) continue
-            mc.thePlayer.sendChatMessage(keyTextEntry.keyTextEntry.text)
+            if (keyTextEntry.justPressed())
+                mc.thePlayer.sendChatMessage(keyTextEntry.keyTextEntry.text)
         }
     }
 }
