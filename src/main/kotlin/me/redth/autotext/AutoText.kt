@@ -3,10 +3,10 @@ package me.redth.autotext
 import cc.polyfrost.oneconfig.events.EventManager
 import cc.polyfrost.oneconfig.events.event.KeyInputEvent
 import cc.polyfrost.oneconfig.libs.eventbus.Subscribe
+import cc.polyfrost.oneconfig.libs.universal.UChat
 import cc.polyfrost.oneconfig.renderer.asset.SVG
 import me.redth.autotext.config.ModConfig
-import me.redth.autotext.config.OptionList
-import net.minecraft.client.Minecraft
+import me.redth.autotext.element.MacroListOption
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 
@@ -17,7 +17,6 @@ object AutoText {
     const val VERSION = "@VER@"
     val PLUS_ICON = SVG("/assets/autotext/icons/plus.svg")
     val MINUS_ICON = SVG("/assets/autotext/icons/minus.svg")
-    private val mc = Minecraft.getMinecraft()
 
     @Mod.EventHandler
     fun onInit(e: FMLInitializationEvent) {
@@ -26,10 +25,11 @@ object AutoText {
     }
 
     @Subscribe
-    fun onKeyInput(e: KeyInputEvent) {
-        for (keyTextEntry in OptionList.list) {
-            if (keyTextEntry.justPressed())
-                mc.thePlayer.sendChatMessage(keyTextEntry.keyTextEntry.text)
+    fun onKeyInput(event: KeyInputEvent) {
+        for (wrapped in MacroListOption.wrappedMacros) {
+            if (!wrapped.macro.enabled) continue
+            if (!wrapped.firstPressed()) continue
+            UChat.say(wrapped.macro.text)
         }
     }
 }
