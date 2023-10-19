@@ -13,48 +13,46 @@ class MacroKeyBindButton(
     private val keyBind: OneKeyBind
 ) : BasicButton(256, 32, SVGs.KEYSTROKE, ALIGNMENT_JUSTIFIED, ColorPalette.SECONDARY) {
     private val allKeysReleased get() = keyBind.size != 0 && !keyBind.isActive
-//    private val listening get() = isToggled
-//
-//    private fun stopListening() {
-//        isToggled = false
-//
-//    }
+    private val recording get() = isToggled
+
+    private fun stopRecording() {
+        isToggled = false
+        OneConfigGui.INSTANCE.allowClose = true
+    }
 
     init {
         setToggleable(true)
+        setClickAction {
+            OneConfigGui.INSTANCE.allowClose = !recording
+        }
     }
 
     override fun update(x: Float, y: Float, inputHandler: InputHandler) {
         super.update(x, y, inputHandler)
 
-        if (isToggled) whileListening()
+        if (recording) whileListening()
         text = getDisplayText()
-    }
-
-    override fun setToggled(toggled: Boolean) {
-        super.setToggled(toggled)
-        OneConfigGui.INSTANCE.allowClose = !toggled
     }
 
     private fun whileListening() {
         when {
             isClicked -> keyBind.clearKeys()
-            allKeysReleased -> isToggled = false
+            allKeysReleased -> stopRecording()
         }
     }
 
     private fun getDisplayText() = keyBind.display.ifEmpty {
-        if (isToggled) "Recording... (ESC to clear)"
+        if (recording) "Recording... (ESC to clear)"
         else "None"
     }
 
     fun isKeyTyped(keyCode: Int): Boolean {
-        if (!isToggled) return false
+        if (!recording) return false
 
         when (keyCode) {
             UKeyboard.KEY_ESCAPE -> {
                 keyBind.clearKeys()
-                isToggled = false
+                stopRecording()
             }
 
             else -> keyBind.addKey(keyCode)
