@@ -2,7 +2,9 @@ package me.redth.autotext.config
 
 import cc.polyfrost.oneconfig.config.Config
 import cc.polyfrost.oneconfig.config.annotations.CustomOption
+import cc.polyfrost.oneconfig.config.annotations.Info
 import cc.polyfrost.oneconfig.config.core.ConfigUtils
+import cc.polyfrost.oneconfig.config.data.InfoType
 import cc.polyfrost.oneconfig.config.data.Mod
 import cc.polyfrost.oneconfig.config.data.ModType
 import cc.polyfrost.oneconfig.config.elements.BasicOption
@@ -13,6 +15,13 @@ import me.redth.autotext.element.MacroListOption
 import java.lang.reflect.Field
 
 object ModConfig : Config(Mod(AutoText.NAME, ModType.UTIL_QOL), "${AutoText.MODID}.json") {
+    @Info(
+        text = "Chat messages are disabled on Hypixel, commands are still allowed",
+        type = InfoType.WARNING,
+        size = 2
+    )
+    private var warning = false
+
     @CustomOption
     private var entries: Array<Macro> = emptyArray()
 
