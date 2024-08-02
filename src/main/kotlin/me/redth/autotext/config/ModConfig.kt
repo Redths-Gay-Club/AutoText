@@ -20,7 +20,7 @@ object ModConfig : Config(Mod(AutoText.NAME, ModType.UTIL_QOL), "${AutoText.MODI
         type = InfoType.WARNING,
         size = 2
     )
-    private var warning = false
+    private var warning = Runnable {  }
 
     @CustomOption
     private var entries: Array<Macro> = emptyArray()
@@ -31,7 +31,7 @@ object ModConfig : Config(Mod(AutoText.NAME, ModType.UTIL_QOL), "${AutoText.MODI
         page: OptionPage,
         mod: Mod,
         migrate: Boolean
-    ): BasicOption? {
+    ): BasicOption {
         val option = MacroListOption
         ConfigUtils.getSubCategory(page, "General", "").options.add(option)
         return option
